@@ -30,40 +30,91 @@ const memoryPictureUrls = [
 */
 // 4. Når spillet er forbi, brug confetti.js til at vise confetti på skærmen. Mere info her : https://github.com/abelmoricz/abelmoricz.github.io/tree/9eac02160de7bb57170441a441db96b36e8341d8/confetti.js-master
 
+const memoryPictureUrls = [
+  "https://picsum.photos/seed/memory_1/300/300",
+  "https://picsum.photos/seed/memory_2/300/300",
+  "https://picsum.photos/seed/memory_3/300/300",
+  "https://picsum.photos/seed/memory_4/300/300",
+  "https://picsum.photos/seed/memory_5/300/300",
+  "https://picsum.photos/seed/memory_6/300/300",
+  "https://picsum.photos/seed/memory_1/300/300",
+  "https://picsum.photos/seed/memory_2/300/300",
+  "https://picsum.photos/seed/memory_3/300/300",
+  "https://picsum.photos/seed/memory_4/300/300",
+  "https://picsum.photos/seed/memory_5/300/300",
+  "https://picsum.photos/seed/memory_6/300/300",
+];
 
 
-
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+  }
+}
 let card = document.getElementsByClassName("card");
+function tilfaeldig(){
+  let array = memoryPictureUrls
+  shuffleArray(array)
+  for (let index = 0; index < card.length; index++) {
+    card[index].children[0].src = array[index]
+  }
+}
+
+
+tilfaeldig()
+
+
+let score = document.getElementById("score")
+
+let spil = 0 
 
 let firstImg ="";
 
 for (let index = 0; index < card.length; index++) {
   card[index].addEventListener("click", (data) => {
     console.log();
-
+    data.target.classList.add("active");
     if (firstImg === "") {
       firstImg = data.target;
-      data.target.classList.add("active");
+      
     } else {
       if (data.target.children[0].src === firstImg.children[0].src) {
         console.log("Dette er et match");
-        data.target.classList.add("active");
         firstImg.classList.add("match")
+        spil += 1
         data.target.classList.add("match");
         firstImg = "";
+
+        if (document.getElementsByClassName("match").length == 12){
+          confetti.start()
+        } 
       } else {
-        firstImg = "";
+        
         console.log("Dette er ikke et match");
+        spil -= 1
 
 
         // Fjern activ klassen fra de 2 valg
        
-        setTimeout(() => {
-          for (let i = 0; i < card.length; i++) {
-            card[i].classList.remove("active")
-          }
-        }, "1000");
-      }
+        setTimeout((firstImg) => {
+          data.target.classList.remove("active");
+          firstImg.classList.remove("active")
+        }, "1000", firstImg);
+     firstImg = ""; }
     }
+    score.innerText = spil.toString()
   });
+
+}
+
+function genstart(){
+  confetti.remove()
+  tilfaeldig()
+  firstImg = ""
+  spil = 0
+  score.innerText = spil.toString()
+  for (let index = 0; index < card.length; index++) {
+    card[index].classList.remove("active", "match")
+  }
 }
