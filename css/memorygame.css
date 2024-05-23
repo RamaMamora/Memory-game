@@ -79,7 +79,8 @@ button {
   transition: all 0.75s ease-out;
 }
 
-.card.active::after {
+.card.active::after,
+.card.match::after {
   opacity: 0;
 }
 

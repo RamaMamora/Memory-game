@@ -29,3 +29,41 @@ const memoryPictureUrls = [
 ];
 */
 // 4. Når spillet er forbi, brug confetti.js til at vise confetti på skærmen. Mere info her : https://github.com/abelmoricz/abelmoricz.github.io/tree/9eac02160de7bb57170441a441db96b36e8341d8/confetti.js-master
+
+
+
+
+let card = document.getElementsByClassName("card");
+
+let firstImg ="";
+
+for (let index = 0; index < card.length; index++) {
+  card[index].addEventListener("click", (data) => {
+    console.log();
+
+    if (firstImg === "") {
+      firstImg = data.target;
+      data.target.classList.add("active");
+    } else {
+      if (data.target.children[0].src === firstImg.children[0].src) {
+        console.log("Dette er et match");
+        data.target.classList.add("active");
+        firstImg.classList.add("match")
+        data.target.classList.add("match");
+        firstImg = "";
+      } else {
+        firstImg = "";
+        console.log("Dette er ikke et match");
+
+
+        // Fjern activ klassen fra de 2 valg
+       
+        setTimeout(() => {
+          for (let i = 0; i < card.length; i++) {
+            card[i].classList.remove("active")
+          }
+        }, "1000");
+      }
+    }
+  });
+}
