@@ -12,7 +12,11 @@
   <body>
     <section id="memory-wrapper">
       <button onclick="genstart()">Start nyt spil</button>
-      <p>Score: <span id="score">0</span></p>
+      <div class="spillerne">
+        <p>Spiller 1: <span id="score">0</span></p>
+        <p>Spiller 2: <span id="nyspiller">0</span></p>
+      </div>
+
       <div id="memory-grid">
         <figure class="card">
           <img src="https://picsum.photos/seed/memory_1/300/300" alt="" />

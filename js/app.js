@@ -66,9 +66,11 @@ tilfaeldig()
 
 
 let score = document.getElementById("score")
+let nyspiller = document.getElementById("nyspiller")
+let spiller1 = true 
 
+let andenspiller = 0 
 let spil = 0 
-
 let firstImg ="";
 
 for (let index = 0; index < card.length; index++) {
@@ -82,7 +84,28 @@ for (let index = 0; index < card.length; index++) {
       if (data.target.children[0].src === firstImg.children[0].src) {
         console.log("Dette er et match");
         firstImg.classList.add("match")
-        spil += 1
+        if (spiller1) {
+          spiller1 = false
+          spil += 1
+
+        } else {
+          andenspiller += 1
+          spiller1 = true
+        }
+
+        console.log(firstImg)
+
+        const check1 = document.createElement("p")
+        check1.innerText ="✓"
+        check1.classList.add("check")
+        firstImg.appendChild(check1)
+
+       
+        const check2 = document.createElement("p")
+        check2.innerText ="✓"
+        check2.classList.add("check")
+ 
+        data.target.appendChild(check2)
         data.target.classList.add("match");
         firstImg = "";
 
@@ -92,7 +115,16 @@ for (let index = 0; index < card.length; index++) {
       } else {
         
         console.log("Dette er ikke et match");
-        spil -= 1
+        if (spiller1) {
+          spiller1 = false
+          spil -= 1
+
+        } else {
+          andenspiller -= 1
+          spiller1 = true
+        }
+
+        
 
 
         // Fjern activ klassen fra de 2 valg
@@ -104,6 +136,7 @@ for (let index = 0; index < card.length; index++) {
      firstImg = ""; }
     }
     score.innerText = spil.toString()
+    nyspiller.innerText = andenspiller.toString()
   });
 
 }
@@ -116,5 +149,10 @@ function genstart(){
   score.innerText = spil.toString()
   for (let index = 0; index < card.length; index++) {
     card[index].classList.remove("active", "match")
+    if (card[index].children[1]) card[index].children[1].remove()
   }
+  andenspiller = 0
+  nyspiller.innerText = andenspiller.toString()
+
 }
+
